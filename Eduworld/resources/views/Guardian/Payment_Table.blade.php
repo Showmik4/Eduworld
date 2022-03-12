@@ -45,6 +45,7 @@
          <th style="padding: 30px">Total Fees</th>
          <th style="padding: 30px">Delete</th>
          <th style="padding: 30px">Update</th>
+         <th style="padding: 30px">Delete</th>
         </tr>
        
   
@@ -65,7 +66,8 @@
            
               
                <td  style="padding: 30px"><a href="{{url('/view_payslip',$datas->id)}}">PaySlip</a></td>
-               <td style="padding: 30px"><a href="{{url('/Update_president',$datas->id)}}">Update</a></td>
+               <td style="padding: 30px"><a href="{{url('/Update_Payment',$datas->id)}}">Update</a></td>
+               <td style="padding: 30px"><a href="{{url('/Delete_Payment',$datas->id)}}">Delete</a></td>
               </tr >
           @endforeach
       

@@ -28,44 +28,36 @@
 <!------ Include the above in your HEAD tag ---------->
 
 <br><br>
-@foreach ($data as $datas)
-<div class="container-fluid well span6" style="padding: 60px">
-	<div class="row-fluid">
-        <div class="span2" >
-		    <img height="200px" width="200px" src="/studentimage/{{$datas->image}}" class="img-circle">
-        </div>
-        
-        <div class="span8">
-           
-            <h6>Email:{{$datas->email}}</h6>
-            <h6>Session:{{$datas->session}}</h6>
-            <h6>Phone:{{$datas->phone}}</h6>
-            <h6>Address:{{$datas->address}}</h6>
-            <h6>CGPA:{{$datas->cgpa}}</h6>
-          
-        </div>
-       
-            
-       
-        <div class="span2">
-            <div class="btn-group">
-               
-                <ul class="dropdown-menu">
-                    <li><a href="#"><span class="icon-wrench"></span> Modify</a></li>
-                    <li><a href="#"><span class="icon-trash"></span> Delete</a></li>
-                </ul>
-            </div>
-        </div>
+    
 
-       
+@foreach($data as $datas)
+<div class="container mt-4 mb-4 p-3 d-flex justify-content-center">
+  <div class="card p-4">
+      <div class=" image d-flex flex-column justify-content-center align-items-center"> <button class="btn btn-secondary"> <img src="/studentimage/{{$datas->image}}" height="300" width="100" /></button> 
+          <div class="d-flex flex-row justify-content-center align-items-center gap-2"> <span class="idd1">{{$datas->name}}</span>  </div>
+          <div class="d-flex flex-row justify-content-center align-items-center mt-3"> <span class="number">{{$datas->email}}</span>  </div>
+            <div class="d-flex flex-row justify-content-center align-items-center mt-3"> <span class="number">{{$datas->session}}</span>  </div>
+              <div class="d-flex flex-row justify-content-center align-items-center mt-3"> <span class="number">CGPA:{{$datas->cgpa}}</span>  </div>
+         <!-- <div class=" d-flex mt-2"> <button class="btn1 btn-dark">Edit Profile</button> </div>-->
+          <div class="text mt-3"> <span>{{$datas->phone}}<br><br> </span> </div>
+          <div class="gap-3 mt-3 icons d-flex flex-row justify-content-center align-items-center"> <span><i class="fa fa-twitter"></i></span> <span><i class="fa fa-facebook-f"></i></span> <span><i class="fa fa-instagram"></i></span> <span><i class="fa fa-linkedin"></i></span> </div>
+          <div class=" px-2 rounded mt-4 date "> <span class="join">{{$datas->address}}</span> </div>
+          <div class=" d-flex mt-2"><a href="{{url('/courses')}}" class="btn btn-info" role="button">View Courses</a></div>
+      </div>
+  </div>
 </div>
-</div>
-@endforeach       
-      
-<div style="padding: 60px">
-    <a href="{{url('/courses')}}" class="btn btn-info" role="button">View Courses</a>
 
-</div>  
+
+
+@endforeach
+
+
+
+
+
+
+
+
       
       
 

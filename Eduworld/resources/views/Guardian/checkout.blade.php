@@ -20,10 +20,6 @@
 
     <div class="container">
 
-        <div style="padding: 20px">
-            <a href="{{url('/slip')}}" class="btn btn-info" role="button">View Recipt</a>
-        
-        </div>
 
       
         <div class="row">

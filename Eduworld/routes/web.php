@@ -13,11 +13,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+/*Route::get('/', function () {
     return view('welcome');
-});
+});*/
 
-Route::get('/home', 'HomeController@redirects');
+//Route::get('/', 'HomeController@index');
+
+Route::get('/home', 'HomeController@redirects')->middleware('auth','verified');
+Route::get('/', 'HomeController@index');
+
+Route::get('/view_profile', 'HomeController@ViewProfile');
+Route::post('/uploadphoto', 'HomeController@UploadPhoto');
+Route::get('/viewphoto', 'HomeController@ViewPhoto');
 
 Route::get('/view_student', 'HomeController@View_Student');
 Route::post('/add_student', 'HomeController@Add_Student');
@@ -29,8 +36,14 @@ Route::get('/get_payment', 'HomeController@payment_table');
 Route::post('/givepayment', 'HomeController@Upload_Payment');
 Route::get('/slip', 'HomeController@View_Recipt');
 Route::get('/view_payslip/{id}', 'HomeController@View_PaySlip');
+Route::get('/Update_Payment/{id}', 'HomeController@Update_Payment');
+Route::post('/edit_payment/{id}', 'HomeController@Edit_Payment');
+Route::get('/Delete_Payment/{id}', 'HomeController@Delete_Payment');
 
 Route::get('/download_pdf', 'HomeController@download_pdf');
+
+
+Route::get('/get_chart', 'HomeController@Chart');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');

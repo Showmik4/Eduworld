@@ -5,15 +5,22 @@ namespace App\Http\Controllers;
 use App\Models\Courses;
 use App\Models\Payment;
 use App\Models\Student;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use PDF;
 use App;
+use App\Models\Photos;
 
 class HomeController extends Controller
 {
     //
+
+    public function index(){
+
+        return view('Guardian.Welcome_Guardian');
+    }
 
     public function redirects(){
      
@@ -22,7 +29,11 @@ class HomeController extends Controller
         
             if(Auth::user()->usertype=='0')
             {
-                return view('Guardian.home');
+                $data1=DB::table('photos')
+                ->join('users','photos.g_id','users.id')
+                ->select('photos.*')->get();
+                $users=user::find(Auth::user());
+                return view('Guardian.home',compact('users','data1'));
             }
 
 
@@ -33,6 +44,41 @@ class HomeController extends Controller
                         return redirect()->back();
                     }
 
+    }
+
+    public function ViewProfile(){
+
+        $users=user::find(Auth::user());
+        return view('Guardian.home',compact("users"));
+        
+       }
+
+
+       public function UploadPhoto(Request $request){
+
+        $data=new Photos();
+        $image=$request->image;
+        $imagename=time().'.'.$image->getClientOriginalExtension();
+        $request->image->move('profileimage',$imagename);
+        $data->image=$imagename;
+        $data->save();
+        return redirect()->back();
+       }
+
+       public function ViewPhoto(){
+         
+
+
+        $data1=DB::table('photos')
+        ->join('users','photos.g_id','users.id')
+        ->select('photos.*')->get();
+       return view('Guardian.home',compact('data1'));
+         
+
+      
+        
+
+      
     }
 
 
@@ -92,8 +138,8 @@ class HomeController extends Controller
 
         $data=DB::table('courses')
         ->join('students','courses.std_id','students.id')
-        ->select('courses.*')->get()
-        ->where('id','std_id')->increment('column3','column4');
+        ->select('courses.*')->get();
+      
         return view('Guardian.checkout',compact('data'));
     }
 
@@ -171,6 +217,65 @@ class HomeController extends Controller
 
     }
 
+
+    public function Update_Payment($id){
+       
+        $data=Payment::find($id);
+        return view('Guardian.Update_Payment',compact('data'));
+     
+     }
+
+
+     public function Edit_Payment(Request $request,$id){
+        $data=Payment::find($id);
+          
+          
+           $data->name=$request->name;
+           $data->email=$request->email;
+          
+           $data->bankname=$request->bankname;
+           $data->acnumber=$request->acnumber;
+           $data->date=$request->date;
+         
+         
+           
+           $data->save();
+     
+           return redirect()->back()->with('message','Payment Updated successfully');
+     
+       }
+
+       public function Delete_Payment($id){
+         
+        $data=Payment::find($id);
+        $data->delete();
+        return redirect()->back();
+       }
+
+
+
+       public function Chart(){
+        
+        $users=user::select(DB::raw("COUNT(*) as  count"))
+        ->whereYear('created_at', date('Y'))
+        ->groupBy(DB::raw("Month('created_at')"))
+        ->pluck('count');
+
+        $months=user::select(DB::raw("Month('created_at') as  month"))
+        ->whereYear('created_at', date('Y'))
+        ->groupBy(DB::raw("Month('created_at')"))
+        ->pluck('month');
+
+        $datas=array(0,0,0,0,0,0,0,0,0,0,0,0);
+        foreach($months as $index=> $month)
+        {
+            $datas[$month]=$users[$index];
+        }
+    
+        return view('Guardian.Chart',compact('datas'));
+       }
+
+    
 }
 
     
